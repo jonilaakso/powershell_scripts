@@ -28,7 +28,7 @@ Write-Host "Changing ip to $newStaticIP and Gateway to $newDefGateway"
 #Try to set new ip
 try {
 
-    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 22
+    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 24
     Set-DnsClientServerAddress -InterfaceIndex $adapterIndex -ServerAddresses $newDefGateway,8.8.8.8
 }
 
@@ -37,7 +37,7 @@ catch {
     Remove-NetIPAddress -InterfaceIndex $adapterIndex -Confirm:$false
     Remove-NetRoute -InterfaceIndex $adapterIndex -Confirm:$false
 
-    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 22
+    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 24
     Set-DnsClientServerAddress -InterfaceIndex $adapterIndex -ServerAddresses $newDefGateway,8.8.8.8
     }
 
