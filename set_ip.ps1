@@ -1,14 +1,9 @@
-# Set Static IP for network adapter
-
 # Disable IPV6:
 Write-Host "Disabling IPv6 from adapters"
 Disable-NetAdapterBinding -Name "*" -ComponentID ms_tcpip6
 
 #Get adapter ifIndex number:
 Get-NetAdapter
-
-# Get the ip address of that adapter:
-# Get-NetIPAddress -InterfaceIndex <number>
 
 #Set IP to adapter
 
@@ -33,7 +28,7 @@ Write-Host "Changing ip to $newStaticIP and Gateway to $newDefGateway"
 #Try to set new ip
 try {
 
-    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 8
+    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 22
     Set-DnsClientServerAddress -InterfaceIndex $adapterIndex -ServerAddresses $newDefGateway,8.8.8.8
 }
 
@@ -42,7 +37,7 @@ catch {
     Remove-NetIPAddress -InterfaceIndex $adapterIndex -Confirm:$false
     Remove-NetRoute -InterfaceIndex $adapterIndex -Confirm:$false
 
-    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 8
+    New-NetIPAddress -InterfaceIndex $adapterIndex -IPAddress $newStaticIP -DefaultGateway $newDefGateway -PrefixLength 22
     Set-DnsClientServerAddress -InterfaceIndex $adapterIndex -ServerAddresses $newDefGateway,8.8.8.8
     }
 
